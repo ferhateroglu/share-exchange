@@ -45,12 +45,6 @@ export default class UserController {
       });
     }
   }
-  // retrieveById(tutorialId: number): Promise<User | null>;
-  // retriveByEmail(email: string): Promise<User | null>;
-  // retriveAll(): Promise<User[]>;
-  // update(tutorial: User): Promise<number>;
-  // delete(tutorialId: number): Promise<number>;
-  // deleteAll(): Promise<number>;
 
   async retriveById(req: Request, res: Response) {
     try {
