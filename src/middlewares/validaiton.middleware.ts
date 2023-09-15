@@ -2,13 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { Schema, ValidationError } from "joi";
 
 class ValidationMiddleware {
-  schemas: { [key: string]: Schema };
+  private schemas: { [key: string]: Schema };
 
   constructor(schemas: { [key: string]: Schema }) {
     this.schemas = schemas;
   }
 
-  validateBody = (schemaKey: string) => {
+  public validateBody = (schemaKey: string) => {
     return (req: Request, res: Response, next: NextFunction) => {
       const schema = this.schemas[schemaKey];
 
@@ -29,7 +29,8 @@ class ValidationMiddleware {
       }
     };
   };
-  validateParams = (schemaKey: string) => {
+
+  public validateParams = (schemaKey: string) => {
     return (req: Request, res: Response, next: NextFunction) => {
       const schema = this.schemas[schemaKey];
 

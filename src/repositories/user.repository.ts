@@ -38,7 +38,9 @@ class UserRepository implements IUserRepository {
 
   async retrieveById(userId: string): Promise<User | null> {
     try {
-      return await User.findByPk(userId);
+      return await User.findOne({
+        where: { id: userId, deletedAt: null },
+      });
     } catch (error) {
       throw new Error("Failed to retrieve User!");
     }
@@ -46,7 +48,7 @@ class UserRepository implements IUserRepository {
 
   async retriveByEmail(email: string): Promise<User | null> {
     try {
-      return await User.findOne({ where: { email: email } });
+      return await User.findOne({ where: { email: email, deletedAt: null } });
     } catch (error) {
       throw new Error("Failed to retrieve User!");
     }
@@ -54,7 +56,7 @@ class UserRepository implements IUserRepository {
 
   async retriveAll(): Promise<User[]> {
     try {
-      return await User.findAll();
+      return await User.findAll({ where: { deletedAt: null } });
     } catch (error) {
       throw new Error("Failed to retrieve User!");
     }
@@ -91,9 +93,16 @@ class UserRepository implements IUserRepository {
 
   async deleteAll(): Promise<number> {
     try {
-      return await User.destroy({ where: {} });
+      // Update the deletedAt column with the current timestamp
+      const [affectedRows] = await User.update(
+        { deletedAt: new Date() },
+        { where: {} }
+      );
+
+      return affectedRows || 0;
     } catch (error) {
-      throw new Error("Failed to delete User!");
+      console.error(error);
+      throw new Error("Failed to soft delete User!");
     }
   }
 }

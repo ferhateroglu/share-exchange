@@ -20,7 +20,6 @@ const userSchema = {
     email: Joi.string().email().required(),
   }),
   update: Joi.object().keys({
-    id: Joi.string().uuid({ version: "uuidv4" }).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
   }),

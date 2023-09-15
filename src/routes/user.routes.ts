@@ -21,11 +21,7 @@ class UserRouter {
       this.validationMiddleware.validateBody("saveAll"),
       this.controller.saveAll
     );
-    this.router.get(
-      "/",
-      this.validationMiddleware.validateParams("retriveAll"),
-      this.controller.retriveAll
-    );
+    this.router.get("/", this.controller.retriveAll);
 
     this.router.get(
       "/:id",
@@ -39,7 +35,7 @@ class UserRouter {
     );
     this.router.put(
       "/:id",
-      this.validationMiddleware.validateParams("update"),
+      this.validationMiddleware.validateBody("update"),
       this.controller.update
     );
     this.router.delete(
