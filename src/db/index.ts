@@ -2,6 +2,8 @@ import { Sequelize } from "sequelize-typescript";
 import { config, dialect } from "../config/db.config";
 import Tutorial from "../models/tutorial.model";
 
+import { Order, Portfolio, Symbol, User } from "../models";
+
 class Database {
   public sequelize: Sequelize | undefined;
 
@@ -20,9 +22,10 @@ class Database {
         max: config.pool.max,
         min: config.pool.min,
         acquire: config.pool.acquire,
-        idle: config.pool.idle
+        idle: config.pool.idle,
       },
-      models: [Tutorial]
+      models: [Tutorial, Order, Portfolio, Symbol, User],
+      logging: false,
     });
 
     await this.sequelize
