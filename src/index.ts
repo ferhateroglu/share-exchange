@@ -12,7 +12,7 @@ export default class Server {
 
   private config(app: Application): void {
     const corsOptions: CorsOptions = {
-      origin: "http://localhost:8081"
+      origin: "http://localhost:" + (process.env.PORT || 8080),
     };
 
     app.use(cors(corsOptions));

@@ -1,9 +1,9 @@
 export const config = {
-  HOST: "localhost",
-  USER: "postgres",
-  PASSWORD: "test123",
-  DB: "eva-case",
-  dialect: "postgres",
+  HOST: process.env.HOST,
+  USER: process.env["DB-USER"],
+  PASSWORD: process.env.PASSWORD,
+  DB: process.env.DB,
+  dialect: process.env.DIALECT,
   pool: {
     max: 5,
     min: 0,
