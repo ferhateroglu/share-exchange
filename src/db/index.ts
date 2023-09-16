@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import { config, dialect } from "../config/db.config";
-import { Order, Portfolio, Symbol, User } from "../models";
+import { Order, Portfolio, Share, User } from "../models";
 
 class Database {
   public sequelize: Sequelize | undefined;
@@ -22,7 +22,7 @@ class Database {
         acquire: config.pool.acquire,
         idle: config.pool.idle,
       },
-      models: [Order, Portfolio, Symbol, User],
+      models: [Order, Portfolio, Share, User],
       logging: false,
     });
 

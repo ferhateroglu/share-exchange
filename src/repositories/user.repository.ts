@@ -107,4 +107,4 @@ class UserRepository implements IUserRepository {
   }
 }
 
-export default new UserRepository();
+export default UserRepository;

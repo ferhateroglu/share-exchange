@@ -4,11 +4,17 @@ import { User } from "../models";
 import { UserRepository } from "../repositories";
 
 export default class UserController {
-  async create(req: Request, res: Response) {
+  private repository: UserRepository;
+
+  constructor() {
+    this.repository = new UserRepository();
+  }
+
+  public create = async (req: Request, res: Response) => {
     try {
       const user: User = req.body;
 
-      const savedUser = await UserRepository.save(user);
+      const savedUser = await this.repository.save(user);
 
       res.status(201).send(savedUser);
     } catch (err) {
@@ -16,13 +22,13 @@ export default class UserController {
         message: "Some error occurred while retrieving users.",
       });
     }
-  }
+  };
 
-  async saveAll(req: Request, res: Response) {
+  public saveAll = async (req: Request, res: Response) => {
     try {
       const users: User[] = req.body.users;
 
-      const savedUsers = await UserRepository.saveAll(users);
+      const savedUsers = await this.repository.saveAll(users);
 
       res.status(201).send(savedUsers);
     } catch (err) {
@@ -30,11 +36,11 @@ export default class UserController {
         message: "Some error occurred while retrieving users.",
       });
     }
-  }
+  };
 
-  async retriveById(req: Request, res: Response) {
+  public retriveById = async (req: Request, res: Response) => {
     try {
-      const user = await UserRepository.retrieveById(req.params.id);
+      const user = await this.repository.retrieveById(req.params.id);
 
       if (user) res.send(user);
       else
@@ -46,11 +52,11 @@ export default class UserController {
         message: "Some error occurred while retrieving users.",
       });
     }
-  }
+  };
 
-  async retriveByEmail(req: Request, res: Response) {
+  public retriveByEmail = async (req: Request, res: Response) => {
     try {
-      const user = await UserRepository.retriveByEmail(req.params.email);
+      const user = await this.repository.retriveByEmail(req.params.email);
 
       if (user) res.send(user);
       else
@@ -62,26 +68,27 @@ export default class UserController {
         message: "Some error occurred while retrieving users.",
       });
     }
-  }
+  };
 
-  async retriveAll(req: Request, res: Response) {
+  public retriveAll = async (req: Request, res: Response) => {
     try {
-      const users = await UserRepository.retriveAll();
+      const users = await this.repository.retriveAll();
 
       res.send(users);
     } catch (err) {
+      console.log(err);
       res.status(500).send({
         message: "Some error occurred while retrieving users.",
       });
     }
-  }
+  };
 
-  async update(req: Request, res: Response) {
+  public update = async (req: Request, res: Response) => {
     try {
       const user: User = req.body;
       user.id = req.params.id;
 
-      const updatedUser = await UserRepository.update(user);
+      const updatedUser = await this.repository.update(user);
 
       if (updatedUser == 1) {
         res.send({
@@ -95,11 +102,11 @@ export default class UserController {
         message: "Some error occurred while retrieving users.",
       });
     }
-  }
+  };
 
-  async delete(req: Request, res: Response) {
+  public delete = async (req: Request, res: Response) => {
     try {
-      const deletedUser = await UserRepository.delete(req.params.id);
+      const deletedUser = await this.repository.delete(req.params.id);
 
       if (deletedUser == 1) {
         res.send({
@@ -113,11 +120,11 @@ export default class UserController {
         message: "Some error occurred while retrieving users.",
       });
     }
-  }
+  };
 
-  async deleteAll(req: Request, res: Response) {
+  public deleteAll = async (req: Request, res: Response) => {
     try {
-      const deletedUsers = await UserRepository.deleteAll();
+      const deletedUsers = await this.repository.deleteAll();
 
       if (deletedUsers > 0) {
         res.send({
@@ -131,5 +138,5 @@ export default class UserController {
         message: "Some error occurred while retrieving users.",
       });
     }
-  }
+  };
 }

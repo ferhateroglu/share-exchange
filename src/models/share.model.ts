@@ -2,7 +2,7 @@ import { Table, Column, DataType } from "sequelize-typescript";
 import BaseEntity from "./baseEntity.model";
 
 @Table({
-  tableName: "symbols",
+  tableName: "shares",
 })
 export default class Symbol extends BaseEntity {
   @Column({
