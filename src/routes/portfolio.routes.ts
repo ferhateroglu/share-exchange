@@ -12,25 +12,34 @@ class PortfolioRouter {
   }
   initializeRoutes() {
     this.router.post(
-      "/saveAll",
-      this.validationMiddleware.validateBody("saveAll"),
-      this.controller.saveAll
+      "/bulk/:id",
+      this.validationMiddleware.validateParams("id"),
+      this.validationMiddleware.validateBody("bulk"),
+      this.controller.bulkCreate
     );
-    this.router.get("/", this.controller.retriveAll);
     this.router.post(
-      "/",
+      "/deposit/:id",
+      this.validationMiddleware.validateParams("id"),
+      this.validationMiddleware.validateBody("deposit"),
+      this.controller.deposit
+    );
+    this.router.get("/:id", this.controller.retriveAll);
+    this.router.post(
+      "/:id",
       this.validationMiddleware.validateBody("addPortfolio"),
       this.controller.addPortfolio
     );
     this.router.put(
-      "/",
+      "/:id",
       this.validationMiddleware.validateBody("updatePortfolio"),
       this.controller.updatePortfolio
     );
     this.router.delete(
       "/:id",
-      this.validationMiddleware.validateParams("removePortfolio"),
+      this.validationMiddleware.validateParams("id"),
       this.controller.removePortfolio
     );
   }
 }
+
+export default new PortfolioRouter().router;

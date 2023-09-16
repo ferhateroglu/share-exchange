@@ -22,6 +22,7 @@ export default class Order extends BaseEntity {
     field: "quoteSymbolId",
     allowNull: false,
   })
+  quoteSymbolId?: string;
   @Column({
     type: DataType.INTEGER,
     field: "quantity",
@@ -31,6 +32,7 @@ export default class Order extends BaseEntity {
   @Column({
     type: DataType.DECIMAL(10, 2),
     field: "price",
+    defaultValue: null,
     allowNull: true,
   })
   price?: number;
@@ -45,6 +47,7 @@ export default class Order extends BaseEntity {
     field: "type",
     allowNull: false,
   })
+  type?: string;
   @Column({
     type: DataType.ENUM("PENDING", "COMPLETED"),
     field: "status",

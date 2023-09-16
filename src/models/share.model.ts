@@ -1,10 +1,11 @@
-import { Table, Column, DataType } from "sequelize-typescript";
+import { Table, Column, DataType, HasMany } from "sequelize-typescript";
 import BaseEntity from "./baseEntity.model";
+import Portfolio from "./portfolio.model";
 
 @Table({
   tableName: "shares",
 })
-export default class Symbol extends BaseEntity {
+export default class Share extends BaseEntity {
   @Column({
     type: DataType.STRING(3),
     field: "symbol",
@@ -16,4 +17,7 @@ export default class Symbol extends BaseEntity {
     field: "name",
   })
   name?: string;
+
+  @HasMany(() => Portfolio)
+  portfolios!: Portfolio[];
 }
