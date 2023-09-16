@@ -1,4 +1,3 @@
-import { where } from "sequelize";
 import { Share } from "../models";
 
 interface IShareRepository {
