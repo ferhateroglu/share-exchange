@@ -4,12 +4,16 @@ import ValidationMiddleware from "../middlewares/validaiton.middleware"; // Impo
 import { portfolioSchema } from "../validations"; // Import the schemas
 
 class PortfolioRouter {
-  router = Router();
-  controller = new PortfolioController();
-  validationMiddleware = new ValidationMiddleware(portfolioSchema); // Pass the schema to the middleware
+  public router = Router();
+  private controller: PortfolioController;
+  private validationMiddleware: ValidationMiddleware; // Pass the schema to the middleware
+
   constructor() {
+    this.controller = new PortfolioController();
+    this.validationMiddleware = new ValidationMiddleware(portfolioSchema); // Pass the schema to the middleware
     this.initializeRoutes();
   }
+
   initializeRoutes() {
     this.router.post(
       "/bulk/:id",

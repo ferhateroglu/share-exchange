@@ -1,12 +1,20 @@
 import { Request, Response } from "express";
 import { Portfolio, Order } from "../models";
-import { PortfolioRepository } from "../repositories";
+import {
+  PortfolioRepository,
+  ShareRepository,
+  UserRepository,
+} from "../repositories";
 
 export default class UserController {
   private repository: PortfolioRepository;
+  private shareRepository: ShareRepository;
+  private userRepository: UserRepository;
 
   constructor() {
     this.repository = new PortfolioRepository();
+    this.shareRepository = new ShareRepository();
+    this.userRepository = new UserRepository();
   }
 
   public deposit = async (req: Request, res: Response) => {
@@ -14,25 +22,53 @@ export default class UserController {
       const userId: string = req.params.id;
       const quantity: number = req.body.quantity;
 
-      const portfolio = await this.repository.findOne({
-        userId,
+      // check user exists
+      const user = await this.userRepository.retrieveById(userId);
+
+      if (!user) {
+        return res.status(404).send({
+          message: "User not found!",
+        });
+      }
+
+      // find or create USD share
+      const [share, created] = await this.shareRepository.findOrCreate({
+        name: "US Dollar",
         symbol: "USD",
       });
 
-      return portfolio;
+      // does user have a portfolio for USD?
+      const portfolio = await this.repository.findOne({
+        userId,
+        shareId: share.id,
+      });
 
-      // if (portfolio) {
-      //   portfolio.quantity += quantity;
-      //   const updatedPortfolio = await this.repository.update(portfolio);
+      if (portfolio) {
+        console.log("sen dur");
 
-      //   if (updatedPortfolio === 0) {
-      //     res.status(404).send({
-      //       message: "Portfolio not found!",
-      //     });
-      //   } else if (updatedPortfolio === 1) {
-      //     res.status(201).send({ message: "Portfolio updated successfully!" });
-      //   }
-      // }
+        portfolio.quantity = parseInt(portfolio.quantity) + quantity;
+        const affectedRowCount = await this.repository.update(portfolio);
+
+        if (affectedRowCount === 1) {
+          res.status(201).send({ message: "Portfolio updated successfully!" });
+        } else {
+          res.status(500).send({
+            message: "Some error occurred while updation portfolios.",
+          });
+        }
+      } else {
+        console.log("sen çalış");
+
+        const portfolio: any = {
+          userId,
+          shareId: share.id,
+          quantity,
+        };
+
+        const savedPortfolio = await this.repository.save(portfolio);
+
+        res.status(201).send(savedPortfolio);
+      }
     } catch (err) {
       res.status(500).send({
         message: "Some error occurred while retrieving portfolios.",
@@ -42,15 +78,41 @@ export default class UserController {
 
   public bulkCreate = async (req: Request, res: Response) => {
     try {
+      // check user exists
+      const user = await this.userRepository.retrieveById(req.params.id);
+
+      if (!user) {
+        return res.status(404).send({
+          message: "User not found!",
+        });
+      }
+
       const portfolios: Portfolio[] = req.body.portfolios;
-      portfolios.forEach((portfolio) => {
+
+      const messageArray: any = [];
+
+      const promiseArray = portfolios.map(async (portfolio) => {
         portfolio.userId = req.params.id;
+        const [createdPortfoli, isCreated] = await this.repository.findOrCreate(
+          portfolio
+        );
+
+        if (isCreated) {
+          messageArray.push({
+            message: "Portfolio created successfully!",
+            portfolio: createdPortfoli,
+          });
+        } else {
+          messageArray.push({
+            message: "Portfolio already exists!",
+            portfolio: createdPortfoli,
+          });
+        }
       });
-      console.log(portfolios);
 
-      const savedPortfolios = await this.repository.saveAll(portfolios);
+      await Promise.all(promiseArray);
 
-      res.status(201).send(savedPortfolios);
+      res.status(201).send(messageArray);
     } catch (err) {
       res.status(500).send({
         message: "Some error occurred while retrieving portfolios.",

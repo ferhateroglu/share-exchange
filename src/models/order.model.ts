@@ -28,30 +28,24 @@ export default class Order extends BaseEntity {
     field: "quantity",
     allowNull: false,
   })
-  quantity?: number;
+  quantity!: number;
   @Column({
     type: DataType.DECIMAL(10, 2),
     field: "price",
     defaultValue: null,
     allowNull: true,
   })
-  price?: number;
+  price!: number;
   @Column({
     type: DataType.ENUM("BUY", "SELL"),
     field: "side",
     allowNull: false,
   })
-  side?: string;
+  side!: string;
   @Column({
     type: DataType.ENUM("MARKET", "LIMIT"),
     field: "type",
     allowNull: false,
   })
-  type?: string;
-  @Column({
-    type: DataType.ENUM("PENDING", "COMPLETED"),
-    field: "status",
-    allowNull: false,
-  })
-  status?: string;
+  type!: string;
 }

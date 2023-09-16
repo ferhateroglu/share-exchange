@@ -26,18 +26,10 @@ class Database {
       logging: false,
     });
 
-    //trade can be done only in USD ABC/USD, BCD/USD ...
-    Share.findOrCreate({
-      where: {
-        name: "US Dollar",
-        symbol: "USD",
-      },
-    });
-
     await this.sequelize
       .authenticate()
       .then(() => {
-        console.log("Connection has been established successfully.");
+        console.log("Sequelize connected");
       })
       .catch((err) => {
         console.error("Unable to connect to the Database:", err);

@@ -11,10 +11,11 @@ interface IOrderRepository {
 }
 
 class OrderRepository implements IOrderRepository {
-  async save(order: Order): Promise<Order | error> {
+  async save(order: any): Promise<Order | error> {
     try {
       return await Order.create({ ...order });
     } catch (err: any) {
+      console.log(err);
       if (err.name === "SequelizeUniqueConstraintError") {
         return { message: "Duplicate entry found!" };
       }

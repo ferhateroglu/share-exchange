@@ -2,14 +2,16 @@ import express, { Application } from "express";
 import cors, { CorsOptions } from "cors";
 import Routes from "./routes";
 import Database from "./db";
-import RedisDB from "./db/redis";
+import RedisDB from "./db/inMemory.db";
 
 export default class Server {
+  private redisDB = new RedisDB();
+
   constructor(app: Application) {
     this.config(app);
     this.syncDatabase();
     this.connectRedis();
-    new Routes(app);
+    new Routes(app, this.redisDB.client);
   }
 
   private config(app: Application): void {
@@ -28,9 +30,8 @@ export default class Server {
   }
 
   private async connectRedis(): Promise<void> {
-    const redis = new RedisDB();
     try {
-      await redis.connect();
+      await this.redisDB.connect();
     } catch (error) {
       console.log("some error occurred while connecting to redis");
     }

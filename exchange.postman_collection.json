@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"test.com\",\n    \"password\":\"te12\"\n}",
+							"raw": "{\n    \"email\":\"test@test.com\",\n    \"password\":\"test123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"users\": [\n                {\n            \"email\": \"test1@test.com\",\n            \"password\": \"test123\"\n        },\n        {\n            \"email\": \"test2@test.com\",\n            \"password\": \"test123\"\n        },\n        {\n            \"email\": \"test3@test.com\",\n            \"password\": \"test123\"\n        }\n    ]\n}",
+							"raw": "{\n    \"users\": [\n        {\n            \"email\": \"test1@test.com\",\n            \"password\": \"test123\"\n        },\n        {\n            \"email\": \"test2@test.com\",\n            \"password\": \"test123\"\n        },\n        {\n            \"email\": \"test3@test.com\",\n            \"password\": \"test123\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -111,7 +111,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}:{{PORT}}/api/users/email/test@test.com",
+							"raw": "{{URL}}:{{PORT}}/api/users/email/test2@test.com",
 							"host": [
 								"{{URL}}"
 							],
@@ -120,7 +120,7 @@
 								"api",
 								"users",
 								"email",
-								"test@test.com"
+								"test2@test.com"
 							]
 						}
 					},
@@ -286,7 +286,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"portfolios\":[\n        {\n            \"shareId\": \"39b7ac4f-d20d-4b4f-bd24-dc050e45ee21\",\n            \"quantity\": 10\n        }\n    ]\n}",
+							"raw": "{\n    \"portfolios\":[\n        {\n            \"shareId\": \"46bb8443-791c-4d45-95e3-4d1352e109c9\",\n            \"quantity\": 100\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -308,7 +308,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "0d225a18-163e-4d3d-9ef1-2ea739a8b1d1",
+									"value": "b9a1d777-70cf-418f-ba5d-07aa35e845e8",
 									"description": "userId"
 								}
 							]
@@ -359,7 +359,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"quantity\":100\n}",
+							"raw": "//Transactions are made only in dollars. So trading pairs are dollars. Ex: ABC/USD\n{\n    \"quantity\":100\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -381,7 +381,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "0d225a18-163e-4d3d-9ef1-2ea739a8b1d1",
+									"value": "b9a1d777-70cf-418f-ba5d-07aa35e845e8",
 									"description": "userId"
 								}
 							]
@@ -395,13 +395,13 @@
 			"name": "order",
 			"item": [
 				{
-					"name": "createOrder",
+					"name": "createLimitOrder",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \n}",
+							"raw": "{\n    \"userId\": \"b9a1d777-70cf-418f-ba5d-07aa35e845e8\",\n    \"symbolPair\": \"ABC/USD\",\n    \"quantity\": 10,\n    \"price\": 5,\n    \"side\": \"SELL\",\n    \"type\": \"LIMIT\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

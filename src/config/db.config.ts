@@ -12,4 +12,9 @@ export const config = {
   },
 };
 
+export const redisConfig = {
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+};
+
 export const dialect = "postgres";

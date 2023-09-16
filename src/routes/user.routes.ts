@@ -4,10 +4,14 @@ import ValidationMiddleware from "../middlewares/validaiton.middleware"; // Impo
 import { userSchema } from "../validations"; // Import the schemas
 
 class UserRouter {
-  router = Router();
-  controller = new UserController();
-  validationMiddleware = new ValidationMiddleware(userSchema); // Pass the schema to the middleware
+  public router: Router;
+  private controller: UserController;
+  private validationMiddleware: ValidationMiddleware;
+
   constructor() {
+    this.router = Router();
+    this.controller = new UserController();
+    this.validationMiddleware = new ValidationMiddleware(userSchema); // Pass the schema to the middleware
     this.initializeRoutes();
   }
   initializeRoutes() {
